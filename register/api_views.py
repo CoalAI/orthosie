@@ -17,7 +17,7 @@
 
 from django.shortcuts import get_object_or_404
 from rest_framework import renderers, status, viewsets
-from rest_framework.decorators import api_view, detail_route, list_route
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
@@ -48,7 +48,7 @@ class ShiftViewSet(viewsets.ModelViewSet):
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def end(self, request, *args, **kwargs):
@@ -67,7 +67,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def ring_upc(self, request, *args, **kwargs):
@@ -83,7 +83,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
                                                             'view': LineItemViewSet})
         return Response(serializer.data)
 
-    @detail_route(
+    @action(detail=True,
         methods=['post'],
         renderer_classes=[renderers.StaticHTMLRenderer]
     )
@@ -97,13 +97,13 @@ class TransactionViewSet(viewsets.ModelViewSet):
         transaction.create_line_item(produce, quantity)
         return Response({'success': True})
 
-    @list_route()
+    @action(detail=False)
     def get_current(self, request, *args, **kwargs):
         transaction = Transaction.get_current()
         serializer = self.get_serializer(transaction)
         return Response(serializer.data)
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def tender_transaction(self, request, *args, **kwargs):
@@ -118,7 +118,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
                                       context={'request': request, 'format': self.format_kwarg, 'view': TenderViewSet})
         return Response(serializer.data)
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def cancel(self, request, *args, **kwargs):
@@ -128,7 +128,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(transaction)
         return Response(serializer.data)
 
-    @detail_route(
+    @action(detail=True,
         methods=['get']
     )
     def get_totals(self, request, *args, **kwargs):
@@ -153,7 +153,7 @@ class LineItemViewSet(viewsets.ModelViewSet):
     queryset = LineItem.objects.all()
     serializer_class = LineItemSerializer
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def cancel(self, request, *args, **kwargs):

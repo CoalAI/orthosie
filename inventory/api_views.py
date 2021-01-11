@@ -17,7 +17,7 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, detail_route
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from inventory.serializers import ItemSerializer, GrocerySerializer
@@ -55,9 +55,7 @@ class GroceryViewSet(viewsets.ModelViewSet):
     queryset = Grocery.objects.all()
     serializer_class = GrocerySerializer
 
-    @detail_route(
-        methods=['post']
-    )
+    @action(detail=True, methods=['post'])
     def update_vendor(self, request, *args, **kwargs):
         grocery = self.get_object()
         try:
@@ -71,7 +69,7 @@ class GroceryViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(grocery)
         return Response(serializer.data)
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def update_name(self, request, *args, **kwargs):
@@ -82,7 +80,7 @@ class GroceryViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(grocery)
         return Response(serializer.data)
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def update_price(self, request, *args, **kwargs):
@@ -93,7 +91,7 @@ class GroceryViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(grocery)
         return Response(serializer.data)
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def update_taxable(self, request, *args, **kwargs):
@@ -104,7 +102,7 @@ class GroceryViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(grocery)
         return Response(serializer.data)
 
-    @detail_route(
+    @action(detail=True,
         methods=['post']
     )
     def update_scalable(self, request, *args, **kwargs):
@@ -124,9 +122,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
     queryset = Produce.objects.all()
     serializer_class = ProduceSerializer
 
-    @detail_route(
-        methods=['post']
-    )
+    @action(detail=True, methods=['post'])
     def update_name(self, request, *args, **kwargs):
         produce = self.get_object()
         produce.name = request.POST['name']
@@ -135,9 +131,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(produce)
         return Response(serializer.data)
 
-    @detail_route(
-        methods=['post']
-    )
+    @action(detail=True, methods=['post'])
     def update_variety(self, request, *args, **kwargs):
         produce = self.get_object()
         produce.variety = request.POST['variety']
@@ -146,9 +140,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(produce)
         return Response(serializer.data)
 
-    @detail_route(
-        methods=['post']
-    )
+    @action(detail=True, methods=['post'])
     def update_size(self, request, *args, **kwargs):
         produce = self.get_object()
         produce.size = request.POST['size']
@@ -157,9 +149,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(produce)
         return Response(serializer.data)
 
-    @detail_route(
-        methods=['post']
-    )
+    @action(detail=True, methods=['post'])
     def update_botanical(self, request, *args, **kwargs):
         produce = self.get_object()
         produce.botanical = request.POST['botanical']
@@ -168,9 +158,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(produce)
         return Response(serializer.data)
 
-    @detail_route(
-        methods=['post']
-    )
+    @action(detail=True, methods=['post'])
     def update_price(self, request, *args, **kwargs):
         produce = self.get_object()
         produce.price = request.POST['price']
@@ -179,9 +167,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(produce)
         return Response(serializer.data)
 
-    @detail_route(
-        methods=['post']
-    )
+    @action(detail=True, methods=['post'])
     def update_taxable(self, request, *args, **kwargs):
         produce = self.get_object()
         produce.taxable = (request.POST['taxable'].lower() == 'true')
@@ -190,9 +176,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(produce)
         return Response(serializer.data)
 
-    @detail_route(
-        methods=['post']
-    )
+    @action(detail=True, methods=['post'])
     def update_scalable(self, request, *args, **kwargs):
         produce = self.get_object()
         produce.scalable = (request.POST['scalable'].lower() == 'true')
