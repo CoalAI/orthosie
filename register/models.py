@@ -73,7 +73,7 @@ class Shift(models.Model):
 
 
 class Transaction(models.Model):
-    shift = models.ForeignKey(Shift)
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     begin_date = models.DateTimeField()
     finish_date = models.DateTimeField(null=True)
     status = models.CharField(max_length=10, default='Started')
@@ -158,13 +158,13 @@ class Transaction(models.Model):
 
 
 class LineItem(models.Model):
-    transaction = models.ForeignKey(Transaction)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     code = models.CharField(max_length=30)
     quantity = models.DecimalField(max_digits=15, decimal_places=0)
     scale = models.DecimalField(max_digits=19, decimal_places=4, null=True)
     description = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=17, decimal_places=2)
-    item = models.ForeignKey('inventory.Item')
+    item = models.ForeignKey('inventory.Item', on_delete=models.CASCADE)
     status = models.CharField(max_length=8, default='ACTIVE')
 
     def __unicode__(self):
@@ -179,7 +179,7 @@ class LineItem(models.Model):
 
 
 class Tender(models.Model):
-    transaction = models.ForeignKey(Transaction)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=17, decimal_places=2)
     type = models.CharField(max_length=30)
 

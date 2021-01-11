@@ -3,3 +3,4 @@ orthosie/orthosie.db
 *.nja
 *.swp
 .idea/
+venv/
